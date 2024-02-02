@@ -43,7 +43,7 @@ const AddPublication = ({users}) => {
                 <select value={student_id} onChange={(e) => setStudentId(e.target.value)}>
                     {users && users.map((item, index) => {return <option value={item.id} key={item._id}>{item.id}</option>})}
                 </select>
-                <p>Enter the Publication Title</p>
+                <p>Enter the Publication Title</p> 
                 <input type="text" 
                 required
                 value={title}
