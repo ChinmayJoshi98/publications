@@ -17,7 +17,7 @@ const addOne = async (req, res) => {
 
 const getAll = async (req, res) => {
     try{
-        let user = await userModelNew.find({}).sort({createdAt: -1});
+        let user = await userModelNew.find({}).sort({id: 1});
         if(user){
             console.log(user);
              return res.status(200).json(user);

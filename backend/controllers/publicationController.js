@@ -19,14 +19,14 @@ const addOne = async (req, res) => {
         }
     }
     else{
-        console.log("Publication doesn't exist");
-        res.status(404).json("No publication found");
+        console.log("User doesn't exist");
+        res.status(404).json("No user with this ID found");
     }
 }
 
 const getAll = async (req, res) => {
     try{
-        let pub = await publicationModel.find({}).sort({createdAt: -1});
+        let pub = await publicationModel.find({}).sort({id: 1});
         if(pub){
             console.log(pub);
              return res.status(200).json(pub);
@@ -55,20 +55,26 @@ const delAll = async (req, res) => {
 }
 
 const updateOne = async (req, res) => {
-    // const { student_id } = req.body;
-     const { id } = req.params;
-    // let userExists = await userModelNew.exists({id: student_id});
-    try{
-        let pub = await publicationModel.findOneAndUpdate({id: id},{...req.body},{new: true});
-        if(pub){
-            console.log(pub);
-                return res.status(200).json(pub);
+    const { student_id } = req.body;
+    const { id } = req.params;
+    let userExists = await userModelNew.exists({id: student_id});
+    if(userExists){
+        try{
+            let pub = await publicationModel.findOneAndUpdate({id: id},{...req.body},{new: true});
+            if(pub){
+                console.log(pub);
+                    return res.status(200).json(pub);
+            }
+            res.status(500).json(pub);
         }
-        res.status(500).json(pub);
+        catch(err){
+            console.log(err);
+            res.status(500).json(err.message);
+        }
     }
-    catch(err){
-        console.log(err);
-        res.status(500).json(err.message);
+    else{
+        console.log("Student ID invalid");
+        res.status(404).json("Invalid Student ID")
     }
 }
 
